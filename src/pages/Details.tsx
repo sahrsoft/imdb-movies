@@ -1,4 +1,4 @@
-import { IonBackButton, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonFooter, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonModal, IonPage, IonTitle, IonToolbar, useIonViewWillEnter } from '@ionic/react'
+import { IonBackButton, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonFooter, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonModal, IonPage, IonTitle, IonToolbar, LifeCycleCallback, useIonViewWillEnter } from '@ionic/react'
 import React, { useState } from 'react'
 import { RouteComponentProps } from 'react-router'
 import useApi, { DetailsResult } from '../hooks/useApi';
@@ -12,11 +12,15 @@ const Details: React.FC<DetailsPageProps> = ({ match }) => {
 
     const [information, setInformation] = useState<DetailsResult | null>(null)
 
-    useIonViewWillEnter(async () => {
+    const fetchData = async () => {
         const id = match.params.id
         const data = await getDetails(id)
         setInformation(data)
         console.log(data)
+    }
+
+    useIonViewWillEnter(() => {
+        fetchData()
     })
 
     return (
